@@ -7,15 +7,12 @@ from ..special_numbers import is_polygonal_number
 
 def is_polygonal_representative_set(int_set, poly_reps):
     """
-        If P is a set of polygonal numbers a set S is called a P-polygonal
-        representative set, or simply P-polygonal, if 
-
-        Checks whether a given set of positive integers contains polygonal
-        numbers of every type (n) specified in the set (or sequence)
-        'poly_reps', e.g. whether for every value of n in 'poly_reps' there
-        is an n-gonal number in the given set of integers, e.g. the set
-        {2882, 8128, 8281} contains a triangular number (8128), a square number
-        (8281) and a pentagonal number (8128).
+        If P is a set of polygonal side lengths n, a set S is called a
+        P-polygonal representative set, or simply P-polygonal, if S
+        consists of a different n-gonal number for every n in P, e.g.
+        the set {2882, 8128, 8281} is {3,4,5}-polygonal because it
+        contains the triangular number 8128, the square number 8281 and
+        the pentagonal number 2882.
     """
     return any(
         (

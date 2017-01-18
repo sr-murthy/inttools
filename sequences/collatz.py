@@ -3,7 +3,7 @@ def collatz(n):
     """
         The Collatz sequence generating function:
 
-            f(n) = (1/2)f(n - 1) if n is even, or 3f(n - 1) + 1 if n is odd
+            f(n) = (1/2)n if n is even, or 3n + 1 if n is odd
 
     """
     return int(n / 2) if n % 2 == 0 else 3*n + 1
