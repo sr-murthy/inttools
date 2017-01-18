@@ -4,7 +4,7 @@ from ..utils import rotations
 
 def is_prime(n):
     """
-        Simple but fairly quick primality checker.
+        Standard primality checker using trial division.
     """
     if n == 1:
         return False
@@ -14,8 +14,8 @@ def is_prime(n):
 
     if n % 2 == 0:
         return False
-    
-    for i in range(3, int(n**(1/2) + 1), 2):
+
+    for i in range(3, math.ceil(math.sqrt(n)) + 1, 2):
         if n % i == 0:
             return False    
 
@@ -61,8 +61,8 @@ def prime_factors(n, multiplicities=False):
         Generates the distinct prime factors of a positive integer n in an
         ordered sequence. If the 'multiplicities' option is True then it
         generates pairs of prime factors of n and their multiplicities
-        (highest p-power dividing n for a given prime factor p), e.g. for
-        n = 54 = 2^1 x 3^3 we have
+        (largest exponent e such that p^e divides n for a prime factor p),
+        e.g. for n = 54 = 2^1 x 3^3 we have
 
             54 -> 2, 3
             54, multiplicities=True -> (2, 1), (3, 3)
