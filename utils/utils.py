@@ -46,9 +46,8 @@ def is_pandigital(n, dset, dfreq='1+'):
         the digit frequency is taken to be exact, e.g.
 
             915286437, {1, 2, 3, 4, 5, 6, 7, 8, 9}     ->   True
-            734682519, {1, 2, 3, 4, 5, 6, 7, 8}, '1'   ->   True
+            734682,    {1, 2, 3, 4, 5, 6, 7, 8}, '1+'  ->   True
             22441144,  {1, 2, 3, 4}, '2+'              ->   True
-            915623,    {1, 2, 3, 5, 6, 9}              ->   True
             12345678,  {1, 2, 3, 4, 5, 6, 7, 8, 9}     ->   False
             123456789, {1, 2, 3, 4, 5, 6, 7, 8}        ->   False
             1243314,   {1, 2, 3, 4}, '2+'              ->   False
@@ -56,10 +55,10 @@ def is_pandigital(n, dset, dfreq='1+'):
     """
     count = Counter(digits(n))
     _dset = set(dset) if not type(dset) == set else dset
-    _ddegree = int(ddegree.split('+')[0])
+    _dfreq = int(dfreq.split('+')[0])
     return (
-        set(count.keys()) == _dset and not any(count[d] != _ddegree for d in count) if '+' not in ddegree else
-        set(count.keys()) == _dset and not any(count[d] < _ddegree for d in count)
+        set(count.keys()).issubset(_dset) and not any(count[d] != _dfreq for d in count) if '+' not in dfreq else
+        set(count.keys()).issubset(_dset) and not any(count[d] < _dfreq for d in count)
    )
 
 
