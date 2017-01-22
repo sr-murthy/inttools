@@ -87,7 +87,10 @@ def int_permutations(n):
 
 def product(int_seq):
     """
-        Returns the product of a sequence (or set) of integers.
+        Returns the product of a sequence (or set) of integers, e.g.
+
+            [1, 2, 3] -> 6
+            [-2, 10, 0] -> 0
     """
     m = 1
     for i in int_seq:
