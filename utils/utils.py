@@ -1,3 +1,5 @@
+from collections import Counter
+
 from itertools import permutations
 
 def digits(n, reverse=False):
@@ -16,7 +18,7 @@ def digits(n, reverse=False):
 
 def int_from_digits(digits):
     """
-        Returns a positive integer n which is a decimal expansion of a
+        Returns a positive integer 'n' which is a decimal expansion of a
         sequence of digits in descending order from the most significant
         digit. The input can be a sequence (list, tuple) or a generator,
         e.g.
@@ -27,6 +29,38 @@ def int_from_digits(digits):
     dgs = list(digits)
     n = len(dgs)
     return sum(d*10**i for d, i in zip(dgs, reversed(range(n))))
+
+
+def is_pandigital(n, dset, dfreq='1+'):
+    """
+        Checks whether a given positive integer 'n' is a pandigital number with
+        respect to the digit base set 'dset' and the digit frequency string
+        'dfreq'. To be precise, 'n' is pandigital with respect to the specified
+        parameters if it has digits in the base set 'dset' such that every digit
+        occurs at least 'dfreq' times, where 'dfreq' is of the form
+
+            '<positive integer>' or '<positive integer>+'.
+
+        The the additional '+' at the end indicates that the specified digit
+        frequency should be considered a minimum - if '+' is not present then
+        the digit frequency is taken to be exact, e.g.
+
+            915286437, {1, 2, 3, 4, 5, 6, 7, 8, 9}     ->   True
+            734682519, {1, 2, 3, 4, 5, 6, 7, 8}, '1'   ->   True
+            22441144,  {1, 2, 3, 4}, '2+'              ->   True
+            915623,    {1, 2, 3, 5, 6, 9}              ->   True
+            12345678,  {1, 2, 3, 4, 5, 6, 7, 8, 9}     ->   False
+            123456789, {1, 2, 3, 4, 5, 6, 7, 8}        ->   False
+            1243314,   {1, 2, 3, 4}, '2+'              ->   False
+
+    """
+    count = Counter(digits(n))
+    _dset = set(dset) if not type(dset) == set else dset
+    _ddegree = int(ddegree.split('+')[0])
+    return (
+        set(count.keys()) == _dset and not any(count[d] != _ddegree for d in count) if '+' not in ddegree else
+        set(count.keys()) == _dset and not any(count[d] < _ddegree for d in count)
+   )
 
 
 def rotations(n):
@@ -50,6 +84,16 @@ def int_permutations(n):
     """
     for p in permutations(digits(n)):
         yield int_from_digits(p)
+
+
+def product(int_seq):
+    """
+        Returns the product of a sequence (or set) of integers.
+    """
+    m = 1
+    for i in int_seq:
+        m *= i
+    return m
 
 
 def concatenate(int_seq):
