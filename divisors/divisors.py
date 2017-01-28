@@ -1,5 +1,4 @@
 from itertools import (
-    count,
     product,
     starmap,
 )
@@ -18,14 +17,14 @@ def divisors(n):
     """
     pfs = [pf for pf in prime_factors(n, multiplicities=True)]
     divs = [
-        int_product(starmap(pow, zip((pf[0]for pf in pfs), mt))) for mt in product(*(range(pf[1] + 1) for pf in pfs))
+        int_product(starmap(pow, zip((pf[0] for pf in pfs), mt))) for mt in product(*(range(pf[1] + 1) for pf in pfs))
     ]
-    divs.sort()
+    divs = sorted(divs)
     for div in divs:
         yield div
 
 
-def num_divisors(n):
+def d(n):
     """
         Returns the number of divisors of a given positive integer n, e.g.
 

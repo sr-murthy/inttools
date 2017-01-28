@@ -23,8 +23,9 @@ def int_from_digits(digits):
         digit. The input can be a sequence (list, tuple) or a generator,
         e.g.
 
-            [1,2,3] -> 1x10^2 + 2x10^1 + 3x10^0 = 123
+            [1,2,3]      -> 1x10^2 + 2x10^1 + 3x10^0        =  123
             (2, 4, 5, 1) -> 2x10^3 + 4x10^2 + 5x10 + 1x10^0 = 2451
+            digits(123)  -> 1x10^2 + 2x10^1 + 3x10^0        = 123
     """
     dgs = list(digits)
     n = len(dgs)
@@ -89,8 +90,10 @@ def int_product(int_seq):
     """
         Returns the product of a sequence (or set) of integers, e.g.
 
-            [1, 2, 3] -> 6
-            [-2, 10, 0] -> 0
+            [1, 2, 3]   -> 6
+            (-2, 10, 0) -> 0
+            {-1, 2, -3} -> 6
+            digits(123) -> 6
     """
     m = 1
     for i in int_seq:
@@ -98,28 +101,59 @@ def int_product(int_seq):
     return m
 
 
-def concatenate(int_seq):
+def concatenate(*seqs):
     """
-        Produces an integer which is a "concatenation" of the digits of a
-        sequence of positive integers, e.g.
+        Generates the sequence obtained by concatenating a sequence of sequences,
+        e.g.
 
-            [12, 345, 6789] -> 123456789
+            (1, 2), (3, 4, 5), (6, 7, 8, 9)        -> 1, 2, 3, 4, 5, 6, 7, 8, 9
+
+        The arguments can be separate sequences (generators, lists, tuples) or
+        an unpacked iterable of such sequences (use * to unpack an iterable
+        argument), e.g.
+
+            digits(12), digits(345), digits(6789)  -> 1, 2, 3, 4, 5, 6, 7, 8, 9
+            digits(12), [3, 4, 5], (6, 7, 8, 9)    -> 1, 2, 3, 4, 5, 6, 7, 8, 9
+            *[digits(12), [3, 4, 5], (6, 7, 8, 9)] -> 1, 2, 3, 4, 5, 6, 7, 8, 9
     """
-    return int(''.join([str(n) for n in int_seq]))
+    for seq in seqs:
+        for c in seq:
+            yield c
 
 
-def interlace(int1, int2, as_sequence=False):
+def interlace(*seqs):
     """
-        Returns the integer obtained by interlacing the digits of two given
-        integers 'int1' and 'int2' of the same length, e.g.
+        Generates the sequence obtained by interlacing a sequence of sequences
+        (of the same length), e.g.
 
-            123, 456 -> 142536
+            (1, 2, 3), (4, 5, 6), (7, 8, 9)       -> 1, 4, 7, 2, 5, 8, 3, 6, 9
+
+        The arguments can be separate sequences (generators, lists, tuples) or
+        an unpacked iterable of such sequences (use * to unpack an iterable
+        argument), e.g.
+
+            digits(123), digits(456), digits(789) -> 1, 4, 7, 2, 5, 8, 3, 6, 9
+            digits(123), [4, 5, 6], (7, 8, 9)     -> 1, 4, 7, 2, 5, 8, 3, 6, 9
+            *[digits(123), [4, 5, 6], (7, 8, 9)]  -> 1, 4, 7, 2, 5, 8, 3, 6, 9
     """
-    intl = ''.join('{}{}'.format(d1, d2) for d1, d2 in zip(str(int1), str(int2)))
-    if not as_sequence:
-        return int(intl)
-    for d in intl:
-        yield int(d)
+    for t in zip(*seqs):
+        for e in t:
+            yield e
+
+
+def int_concatenate(*seq_ints):
+    """
+        Returns the integer obtained by concatenating a sequence of integers, e.g.
+
+            12, 345, 6789    -> 123456789
+
+        The arguments can be separate integers, as above, or an unpacked
+        sequence of integers, e.g.
+
+            *[12, 345, 6789] -> 123456789
+    """
+    return int_from_digits(reduce(concatenate, map(digits, seq_ints)))
+
 
 def integerise(f):
     """
