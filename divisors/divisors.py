@@ -36,8 +36,8 @@ def num_divisors(n):
             n = p_1^e_1 x p_2^e_2 x ... p_k^e_k
 
         (where the p_i are the prime factors of n and e_i are their 
-        multiplicities, then using the counting theorem says the number of
-        divisors of n is equal to the product
+        multiplicities, then using the counting theorem the number of divisors
+        of n is equal to the product
 
             (e_1 + 1) x (e_2 + 1) x ... x (e_k + 1)
     """
