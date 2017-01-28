@@ -79,14 +79,21 @@ def prime_factors(n, multiplicities=False):
             yield n, 1
         return
 
-    pf = (p for p in primes(int_range=range(2, math.ceil(n / 2) + 1)) if n % p == 0)
-    if not multiplicities:
-        for p in pf:
-            yield p
-    else:
-        pfm = ((p, max(e for e in reversed(range(1, math.ceil(math.log(n, p)))) if n % p**e == 0)) for p in pf)
-        for p, m in pfm:
-            yield p, m
+    i = 0
+    d = 2
+    ub = math.ceil(n / 2) + 1
+    while d <= ub:
+        q = n / d
+        if q.is_integer() and is_prime(d):
+            if i == 1:
+                ub = min(ub, q)
+            if not multiplicities:
+                yield d
+            else:
+                m = max(e for e in reversed(range(1, math.ceil(math.log(n, d)))) if n % (d**e) == 0)
+                yield d, m
+            i += 1
+        d += 1 
 
 
 def is_circular_prime(n):
