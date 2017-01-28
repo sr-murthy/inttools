@@ -85,7 +85,7 @@ def int_permutations(n):
         yield int_from_digits(p)
 
 
-def product(int_seq):
+def int_product(int_seq):
     """
         Returns the product of a sequence (or set) of integers, e.g.
 

@@ -1,6 +1,6 @@
 import math
 
-from ..utils import rotations
+from utils import rotations
 
 def is_prime(n):
     """
@@ -29,7 +29,7 @@ def primes(index_range=None, int_range=None):
         primes) by using the 'index_range' option, or a given interval for
         the primes (e.g. primes between 100 and 1000) by using the
         'int_range' option.
-    """    
+    """
     if index_range:
         n = 2
         i = 1
@@ -79,7 +79,7 @@ def prime_factors(n, multiplicities=False):
             yield n, 1
         return
 
-    pf = (p for p in primes(int_range=range(2, math.ceil(math.sqrt(n)) + 1)) if n % p == 0)
+    pf = (p for p in primes(int_range=range(2, math.ceil(n / 2) + 1)) if n % p == 0)
     if not multiplicities:
         for p in pf:
             yield p
