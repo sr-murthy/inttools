@@ -108,6 +108,19 @@ def concatenate(int_seq):
     return int(''.join([str(n) for n in int_seq]))
 
 
+def interlace(int1, int2, as_sequence=False):
+    """
+        Returns the integer obtained by interlacing the digits of two given
+        integers 'int1' and 'int2' of the same length, e.g.
+
+            123, 456 -> 142536
+    """
+    intl = ''.join('{}{}'.format(d1, d2) for d1, d2 in zip(str(int1), str(int2)))
+    if not as_sequence:
+        return int(intl)
+    for d in intl:
+        yield int(d)
+
 def integerise(f):
     """
         Turns a float into an integer if it is an integer, otherwise returns
