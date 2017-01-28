@@ -79,7 +79,7 @@ def prime_factors(n, multiplicities=False):
             yield n, 1
         return
 
-    pf = (p for p in primes(int_range=range(2, math.ceil(math.sqrt(n)))) if n % p == 0)
+    pf = (p for p in primes(int_range=range(2, math.ceil(math.sqrt(n)) + 1)) if n % p == 0)
     if not multiplicities:
         for p in pf:
             yield p
