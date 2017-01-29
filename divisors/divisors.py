@@ -3,6 +3,8 @@ from itertools import (
     starmap,
 )
 
+from functools import partial
+
 from primes import prime_factors
 
 from utils import int_product
@@ -41,3 +43,36 @@ def d(n):
             (e_1 + 1) x (e_2 + 1) x ... x (e_k + 1)
     """
     return int_product((pf[1] + 1) for pf in prime_factors(n, multiplicities=True))
+
+
+def sigma(n, k):
+    """
+        The sum of the k-th powers of the divisors of n - in number theory this
+        is traditionally denoted by \sigma_k(n) (LaTeX notation):
+
+            (12, 2) -> 1^2 + 2^2 + 3^2 + 4^2 + 6^2 + 12^2 = 210
+    """
+    return sum(d**k for d in divisors(n))
+
+
+def sigma_k_func(k):
+    """
+        Returns the restriction of the sigma function obtained by fixing k, e.g.
+
+            >>> s2 = sigma_k_func(2)
+
+            >>> s2(12)
+            >>> 210
+    """
+
+    return partial(sigma, k=k)
+
+
+def s(n):
+    """
+        Returns sum of the proper divisors of a positive integer n, e.g.
+
+            12 -> 1 + 2 + 3 + 4 + 6 = 16
+     """
+    return sum(filter(lambda d: d != n, divisors(n)))
+

@@ -4,7 +4,7 @@ from utils import rotations
 
 def is_prime(n):
     """
-        Standard primality checker using trial division.
+        Primality checker using trial division.
     """
     if n == 1:
         return False

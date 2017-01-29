@@ -3,7 +3,7 @@ from itertools import (
     starmap,
 )
 
-from ..special_numbers import is_polygonal_number
+from special_numbers import is_polygonal_number
 
 def is_polygonal_representative_set(int_set, poly_reps):
     """
