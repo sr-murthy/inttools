@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from itertools import (
     product,
     starmap,
@@ -17,9 +19,9 @@ def divisors(n):
 
             312 -> 1, 2, 3, 4, 6, 8, 12, 13, 24, 26, 39, 52, 78, 104, 156, 312
     """
-    pfs = [pf for pf in prime_factors(n, multiplicities=True)]
+    pfs = OrderedDict((pf[0], pf[1]) for pf in prime_factors(n, multiplicities=True))
     divs = [
-        int_product(starmap(pow, zip((pf[0] for pf in pfs), mt))) for mt in product(*(range(pf[1] + 1) for pf in pfs))
+        int_product(starmap(pow, zip(pfs.keys(), mt))) for mt in product(*(range(pfs[p] + 1) for p in pfs))
     ]
     divs = sorted(divs)
     for div in divs:
@@ -74,5 +76,5 @@ def s(n):
 
             12 -> 1 + 2 + 3 + 4 + 6 = 16
      """
-    return sum(filter(lambda d: d != n, divisors(n)))
+    return sum(filter(lambda d: d < n, divisors(n)))
 
