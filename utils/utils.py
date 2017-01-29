@@ -138,9 +138,8 @@ def interlace(*seqs):
             digits(123), [4, 5, 6], (7, 8, 9)     -> 1, 4, 7, 2, 5, 8, 3, 6, 9
             *[digits(123), [4, 5, 6], (7, 8, 9)]  -> 1, 4, 7, 2, 5, 8, 3, 6, 9
     """
-    for t in zip(*seqs):
-        for e in t:
-            yield e
+    for e in concatenate(*zip(*seqs)):
+        yield e
 
 
 def int_concatenate(*seq_ints):
