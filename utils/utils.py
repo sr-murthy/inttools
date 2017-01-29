@@ -2,9 +2,11 @@ from collections import Counter
 
 from itertools import permutations
 
+from math import factorial
+
 def digits(n, reverse=False):
     """
-        Generates the sequence of digits of a given integer n, starting from
+        Generates the sequence of digits of a given integer `n`, starting from
         the most significant digit, by default. If reverse is True then the
         sequence is generated from the least significant digit, e.g.
 
@@ -18,7 +20,7 @@ def digits(n, reverse=False):
 
 def int_from_digits(digits):
     """
-        Returns a positive integer 'n' which is a decimal expansion of a
+        Returns a positive integer `n` which is a decimal expansion of a
         sequence of digits in descending order from the most significant
         digit. The input can be a sequence (list, tuple) or a generator,
         e.g.
@@ -34,15 +36,15 @@ def int_from_digits(digits):
 
 def is_pandigital(n, dset, dfreq='1+'):
     """
-        Checks whether a given positive integer 'n' is a pandigital number with
-        respect to the digit base set 'dset' and the digit frequency string
-        'dfreq'. To be precise, 'n' is pandigital with respect to the specified
-        parameters if it has digits in the base set 'dset' such that every digit
-        occurs at least 'dfreq' times, where 'dfreq' is of the form
+        Checks whether a given positive integer `n` is a pandigital number with
+        respect to the digit base set `dset` and the digit frequency string
+        dfreq. To be precise, `n` is pandigital with respect to the specified
+        parameters if it has digits in the base set `dset` such that every digit
+        occurs at least `dfreq` times, where `dfreq` is of the form
 
-            '<positive integer>' or '<positive integer>+'.
+            `<positive integer>` or `<positive integer>+`
 
-        The the additional '+' at the end indicates that the specified digit
+        The the additional `+` at the end indicates that the specified digit
         frequency should be considered a minimum - if '+' is not present then
         the digit frequency is taken to be exact, e.g.
 
@@ -65,7 +67,7 @@ def is_pandigital(n, dset, dfreq='1+'):
 
 def rotations(n):
     """
-        Generates a sequence of (right) rotations of a positive integer n, e.g.
+        Generates a sequence of (right) rotations of a positive integer `n`, e.g.
 
             1234 -> 4123, 3412, 2341, 1234
     """
@@ -77,7 +79,7 @@ def rotations(n):
 
 def int_permutations(n):
     """
-        Generates a sequence of permutations of a given positive integer n in
+        Generates a sequence of permutations of a given positive integer `n` in
         lexicographic order, e.g.
 
             123 -> 123, 132, 213, 231, 312, 321
@@ -157,7 +159,38 @@ def int_concatenate(*seq_ints):
 
 def integerise(f):
     """
-        Turns a float into an integer if it is an integer, otherwise returns
-        the same float.
+        Turns a float `f` into an integer if it is an integer, otherwise
+        returns the same float.
     """
     return int(f) if type(f) == float and f.is_integer() else f
+
+
+def multinomial(n, *ks):
+    """
+        Returns the multinomial coefficient (n; k_1, k_2, ... k_m), where
+        k_1, k_2, ..., k_m are non-negative integers such that
+
+            k_1 + k_2 + ... + k_m = n.
+
+        This is the coefficient of the term
+
+           x_1^k_1 + x_2^k_2 + ... + x_m^k_m
+
+        in the expansion of
+
+        (x_1 + x_2 + ... x_m)^n.
+
+        The argument *ks can be separate non-negative integers adding up to the
+        given non-negative integer `n`, or an unpacked sequence of such
+        integers.
+    """
+    return int(factorial(n) / int_product(map(factorial, ks)))
+
+
+def binomial(n, k):
+    """
+        Returns the familiar binomial cofficient - the number of ways
+        of choosing a set of `k` objects (without replacement) from a set of
+        `n` objects.
+    """
+    return multinomial(n, k, n - k)
