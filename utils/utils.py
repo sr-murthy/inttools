@@ -4,6 +4,22 @@ from itertools import permutations
 
 from math import factorial
 
+
+def int_product(int_seq):
+    """
+        Returns the product of a sequence (or set) of integers, e.g.
+
+            [1, 2, 3]   -> 6
+            (-2, 10, 0) -> 0
+            {-1, 2, -3} -> 6
+            digits(123) -> 6
+    """
+    m = 1
+    for i in int_seq:
+        m *= i
+    return m
+
+
 def digits(n, reverse=False):
     """
         Generates the sequence of digits of a given integer `n`, starting from
@@ -16,6 +32,26 @@ def digits(n, reverse=False):
     s = str(n) if not reverse else str(n)[::-1]
     for d in s:
         yield int(d)
+
+
+def digit_sum(n, k=1):
+    """
+        Returns the sum of the `k`-th powers of the digits of a given positive
+        integer `n`, e.g.
+
+            (312, 2) -> 3^2 + 1^1 + 2^2 = 14
+    """
+    return sum(d**k for d in digits(n))
+
+
+def digit_product(n, k=1):
+    """
+        Returns the product of the `k`-th powers of the digits of a given
+        positive integer `n`, e.g.
+
+            (312, 2) -> 3^2 x 1^2 x 2^2 = 36
+    """
+    return product(d**k for d in digits(n))
 
 
 def int_from_digits(digits):
@@ -86,21 +122,6 @@ def int_permutations(n):
     """
     for p in permutations(digits(n)):
         yield int_from_digits(p)
-
-
-def int_product(int_seq):
-    """
-        Returns the product of a sequence (or set) of integers, e.g.
-
-            [1, 2, 3]   -> 6
-            (-2, 10, 0) -> 0
-            {-1, 2, -3} -> 6
-            digits(123) -> 6
-    """
-    m = 1
-    for i in int_seq:
-        m *= i
-    return m
 
 
 def concatenate(*seqs):
