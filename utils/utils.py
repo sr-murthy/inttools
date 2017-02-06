@@ -192,11 +192,11 @@ def multinomial(n, *ks):
 
             k_1 + k_2 + ... + k_m = n.
 
-        This is the coefficient of the term
+        This coefficient is the coefficient of the term
 
-           x_1^k_1 + x_2^k_2 + ... + x_m^k_m
+           x_1^(k_1)x_2^(k_2)...x_m^(k_m)
 
-        in the expansion of
+        (with the k_i summing to n) in the expansion of
 
         (x_1 + x_2 + ... x_m)^n.
 
