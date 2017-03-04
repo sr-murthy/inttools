@@ -21,7 +21,11 @@ def divisors(n):
     """
     pfs = OrderedDict((pf[0], pf[1]) for pf in prime_factors(n, multiplicities=True))
     divs = [
-        int_product(starmap(pow, zip(pfs.keys(), mt))) for mt in product(*(range(pfs[p] + 1) for p in pfs))
+        int_product(
+            starmap(
+                pow, zip(pfs.keys(), mt))) for mt in product(*(range(pfs[p] + 1) for p in pfs
+            )
+        )
     ]
     divs = sorted(divs)
     for div in divs:
