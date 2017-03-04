@@ -1,4 +1,3 @@
-
 def collatz(n):
     """
         The Collatz sequence generating function:
