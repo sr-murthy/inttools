@@ -7,9 +7,9 @@ from itertools import (
 
 from functools import partial
 
-from primes import prime_factors
+from inttools.primes import prime_factors
 
-from utils import int_product
+from inttools.utils import int_product
 
 
 def divisors(n):

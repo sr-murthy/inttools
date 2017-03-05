@@ -1,6 +1,6 @@
 import math
 
-from utils import rotations
+from inttools.utils import rotations
 
 def is_prime(n):
     """

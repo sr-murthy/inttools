@@ -200,9 +200,9 @@ def multinomial(n, *ks):
 
         (x_1 + x_2 + ... x_m)^n.
 
-        The argument *ks can be separate non-negative integers adding up to the
-        given non-negative integer `n`, or an unpacked sequence of such
-        integers.
+        The argument ks can be separate non-negative integers adding up to the
+        given non-negative integer `n`, or a list, tuple or set of such
+        integers prefixed by '*', e.g. *[1, 2, 3].
     """
     return int(factorial(n) / int_product(map(factorial, ks)))
 
