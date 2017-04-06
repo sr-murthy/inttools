@@ -107,7 +107,7 @@ def is_circular_prime(n):
     return True
 
 
-def circular_primes(ubound):
+def circular_primes(ubound=1000):
     """
         Generates the sequence of all circular primes below a given upper
         bound.
