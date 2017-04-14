@@ -37,9 +37,10 @@ def digits(n, reverse=False):
 def digit_sum(n, k=1):
     """
         Returns the sum of the `k`-th powers of the digits of a given positive
-        integer `n`, e.g.
-
-            (312, 2) -> 3^2 + 1^1 + 2^2 = 14
+        integer `n`. By default 'k' is 1, e.g.
+            
+            (123)    -> 1^1 + 2^1 + 3^1 = 6
+            (123, 2) -> 1^2 + 2^2 + 3^2 = 14
     """
     return sum(d**k for d in digits(n))
 
