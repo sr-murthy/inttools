@@ -49,7 +49,7 @@ def geometric(a, r, index_range=None, seq_range=None):
         return
     k = 0
     while True:
-        yield a*r**k
+        yield t(k)
         k += 1
 
 
