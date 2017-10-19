@@ -81,3 +81,9 @@ target/
 venv/
 ENV/
 
+# Archived files
+.tar
+.tar.gz
+.gz
+.zip
+
