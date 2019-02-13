@@ -1,5 +1,6 @@
 from collections import Counter
 
+from functools import reduce
 from itertools import permutations
 
 from math import factorial
@@ -14,10 +15,7 @@ def int_product(int_seq):
             {-1, 2, -3} -> 6
             digits(123) -> 6
     """
-    m = 1
-    for i in int_seq:
-        m *= i
-    return m
+    return reduce(lambda x, y: x * y, int_seq)
 
 
 def digits(n, reverse=False):
@@ -42,7 +40,7 @@ def digit_sum(n, k=1):
             (123)    -> 1^1 + 2^1 + 3^1 = 6
             (123, 2) -> 1^2 + 2^2 + 3^2 = 14
     """
-    return sum(d**k for d in digits(n))
+    return reduce(lambda x, y: x + y, (d**k for d in digits(n)))
 
 
 def digit_product(n, k=1):
@@ -52,7 +50,7 @@ def digit_product(n, k=1):
 
             (312, 2) -> 3^2 x 1^2 x 2^2 = 36
     """
-    return product(d**k for d in digits(n))
+    return reduce(lambda x, y: x * y, (d**k for d in digits(n)))
 
 
 def int_from_digits(digits):
