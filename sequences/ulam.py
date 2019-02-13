@@ -1,3 +1,5 @@
+from itertools import product
+
 def ulam(a, b, k):
     """
     An integer sequence defined as follows:
@@ -24,22 +26,21 @@ def ulam(a, b, k):
     terms[k - 1] = min_bound
     sums = Counter()
 
-    for i in range(1, k - 1):
-        for j in range(i + 1, k):
+    for i, j in product(range(1, k - 1), range(i + 1, k)):
+        try:
+            ti = terms[i]
+        except KeyError:
+            ti = ulam(a, b, i)
+            terms[i] = ti
+        else:
             try:
-                ti = terms[i]
+                tj = terms[j]
             except KeyError:
-                ti = ulam(a, b, i)
-                terms[i] = ti
-            else:
-                try:
-                    tj = terms[j]
-                except KeyError:
-                    tj = ulam(a, b, j)
-                    terms[j] = tj
+                tj = ulam(a, b, j)
+                terms[j] = tj
 
-            s = ti + tj
-            if s > min_bound:
-                sums[s] += 1
+        s = ti + tj
+        if s > min_bound:
+            sums[s] += 1
 
     return min(s for s in sums if sums[s] == 1 and s > min_bound)

@@ -1,5 +1,7 @@
 import math
 
+from itertools import product
+
 from inttools.utils import integerise
 
 def complexify(r):
@@ -81,13 +83,14 @@ def gaussian_divisors(g):
     """
     if not is_gaussian_integer(g):
         return
+
     g = complex_format(g)
     ubound = math.ceil(math.sqrt(abs(g))) if g.real and g.imag else int(g.real) if g.real else int(g.imag)
-    for a in range(ubound + 1):
-        for b in range(ubound + 1):
-            if a or b:
-                d = complex(a, b)
-                if is_gaussian_integer(complex_divide(g, d)):
-                    for f in complex_reflections(d):
-                        yield f
+
+    for a, b in product(range(ubound + 1), range(ubound + 1)):
+        if a or b:
+            d = complex(a, b)
+            if is_gaussian_integer(complex_divide(g, d)):
+                for f in complex_reflections(d):
+                    yield f
 
