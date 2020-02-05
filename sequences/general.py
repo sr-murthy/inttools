@@ -1,5 +1,7 @@
 import math
 
+from inttools.utils import binomial
+
 def arithmetic(a, d, index_range=None, seq_range=None):
     """
         Generates the arithmetic sequence with a first term of 'a' and a common
@@ -11,7 +13,7 @@ def arithmetic(a, d, index_range=None, seq_range=None):
         of terms to generate, or the 'seq_range' option to specify an interval
         in which the generated terms should lie.
     """
-    t = lambda n: a + (n - 1)*d
+    t = lambda n: a + (n - 1) * d
     if index_range:
         for n in index_range:
             yield t(n)
@@ -36,7 +38,7 @@ def geometric(a, r, index_range=None, seq_range=None):
 
             a, ar, ar^2, ...
     """
-    t = lambda n: a*r**(n - 1)
+    t = lambda n: a * r ** (n - 1)
     if index_range:
         for n in index_range:
             yield t(n)
@@ -71,3 +73,17 @@ def fibonacci(n):
         a, b = b, a + b
         k += 1
     return b
+
+def pascal_triangle(n):
+    """
+        Prints out Pascal's triangle for a given positive integer n.
+
+        Pascal's triangle for a given positive integer n is the sequence
+        of sequence of coefficients of the binomial expansions
+
+            (x + 1)^1, (x + 1)^2, ... , (x + 1)^n
+    """
+    for k in range(n + 1):
+        for i in range(k + 1):
+            yield binomial(k, i)
+        yield
