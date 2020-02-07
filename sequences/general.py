@@ -1,5 +1,10 @@
 import math
 
+from itertools import (
+    chain,
+    starmap,
+)
+
 from inttools.utils import binomial
 
 def arithmetic(a, d, index_range=None, seq_range=None):
@@ -76,14 +81,12 @@ def fibonacci(n):
 
 def pascal_triangle(n):
     """
-        Prints out Pascal's triangle for a given positive integer n.
+        Generates the rows of Pascal's triangle for a given positive integer n.
 
         Pascal's triangle for a given positive integer n is the sequence
         of sequence of coefficients of the binomial expansions
 
             (x + 1)^1, (x + 1)^2, ... , (x + 1)^n
     """
-    for k in range(n + 1):
-        for i in range(k + 1):
-            yield binomial(k, i)
-        yield
+    for aseq in chain(starmap(binomial, seq) for seq in chain(((k, i) for i in range(k + 1)) for k in range(n + 1))):
+        yield list(aseq)
