@@ -62,7 +62,7 @@ def geometric(a, r, index_range=None, seq_range=None):
 
 def fibonacci(n):
     """
-        Returns the n-th number in the Fibonacci sequence given by:
+        Generates the first n terms of the Fibonacci sequence:
 
             f(1) = 1, f(2) = 1, f(n) = f(n - 1) + f(n - 2) for n > 2
 
@@ -70,14 +70,14 @@ def fibonacci(n):
 
             1, 1, 2, 3, 5, 8, 13, 21, 34, 55
     """
-    if n in [1, 2]:
-        return 1
+    yield 1
+    yield 1
     a = b = 1
     k = 2
     while k < n:
         a, b = b, a + b
         k += 1
-    return b
+        yield b
 
 def pascal_triangle(n):
     """
