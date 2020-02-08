@@ -60,9 +60,9 @@ def geometric(a, r, index_range=None, seq_range=None):
         k += 1
 
 
-def fibonacci(n):
+def fibonacci(n=None):
     """
-        Generates the first n terms of the Fibonacci sequence:
+        Generates the terms of the Fibonacci sequence defined by
 
             f(1) = 1, f(2) = 1, f(n) = f(n - 1) + f(n - 2) for n > 2
 
@@ -71,22 +71,28 @@ def fibonacci(n):
             1, 1, 2, 3, 5, 8, 13, 21, 34, 55
     """
     yield 1
+    if n == 1:
+        return
     yield 1
+    if n == 2:
+        return
     a = b = 1
     k = 2
-    while k < n:
+    while True:
         a, b = b, a + b
         k += 1
         yield b
+        if n is not None and k == n:
+            return
 
 def pascal_triangle(n):
     """
         Generates the rows of Pascal's triangle for a given positive integer n.
 
         Pascal's triangle for a given positive integer n is the sequence
-        of sequence of coefficients of the binomial expansions
+        of sequence of coefficients of the terms of the binomial expansions
 
-            (x + 1)^1, (x + 1)^2, ... , (x + 1)^n
+            (x + 1)^ 0, (x + 1)^1, (x + 1)^2, ... , (x + 1)^n
     """
     for aseq in chain(starmap(binomial, seq) for seq in chain(((k, i) for i in range(k + 1)) for k in range(n + 1))):
         yield list(aseq)
