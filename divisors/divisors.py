@@ -27,7 +27,7 @@ def divisors(n):
             )
         )
     ]
-    divs = sorted(divs)
+    divs.sort()
     for div in divs:
         yield div
 
