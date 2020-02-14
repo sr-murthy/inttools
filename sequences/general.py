@@ -18,7 +18,9 @@ def arithmetic(a, d, index_range=None, seq_range=None):
         of terms to generate, or the 'seq_range' option to specify an interval
         in which the generated terms should lie.
     """
-    t = lambda n: a + (n - 1) * d
+    def t(n):
+        return a + (n - 1) * d
+
     if index_range:
         for n in index_range:
             yield t(n)
@@ -60,7 +62,7 @@ def geometric(a, r, index_range=None, seq_range=None):
         k += 1
 
 
-def fibonacci(n=None):
+def fibonacci():
     """
         Generates the terms of the Fibonacci sequence defined by
 
@@ -71,19 +73,34 @@ def fibonacci(n=None):
             1, 1, 2, 3, 5, 8, 13, 21, 34, 55
     """
     yield 1
-    if n == 1:
-        return
     yield 1
-    if n == 2:
-        return
     a = b = 1
     k = 2
     while True:
         a, b = b, a + b
         k += 1
         yield b
-        if n is not None and k == n:
-            return
+
+
+def fibonacci_n(n):
+    """
+        Returns the n-th number in the Fibonacci sequence given by:
+
+            f(1) = 1, f(2) = 1, f(n) = f(n - 1) + f(n - 2) for n > 2
+
+        The first 10 terms are
+
+            1, 1, 2, 3, 5, 8, 13, 21, 34, 55
+    """
+    if n in [1, 2]:
+        return 1
+    a = b = 1
+    k = 2
+    while k < n:
+        a, b = b, a + b
+        k += 1
+    return b
+
 
 def pascal_triangle(n):
     """
