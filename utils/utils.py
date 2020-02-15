@@ -1,3 +1,5 @@
+import re
+
 from collections import Counter
 
 from functools import reduce
@@ -69,41 +71,39 @@ def int_from_digits(digits):
     return sum(d * 10 ** i for d, i in zip(dgs, reversed(range(n))))
 
 
-def is_pandigital(n, dset, dfreq='1+'):
+def is_pandigital(n, zeroless=False, dig_freq='1+'):
     """
-        Checks whether a given positive integer ``n`` is a pandigital number
-        with respect to the digit base set ``dset`` and the digit frequency
-        string ``dfreq``. To be precise, ``n`` is pandigital with respect to
-        the specified parameters if it has digits in the base set ``dset``
-        such that every digit occurs at least ``dfreq`` times, where ``dfreq``
-        is a string of the form
+        Checks whether a positive integer ``n`` is pandigital with respect
+        to the (decimal) base and has a digit frequency given by the
+        string ``dig_freq``. The optional ``zeroless`` argument can be used
+        to indicate whether ``0`` should or should not be included in
+        checking for the pandigital property, i.e. whether ``0`` should be
+        included in the base digit set.
+
+        Note: ``dig_freq`` is an integer string with an optional ``+``
+        suffix to indicate min. digit frequency - otherwise the digit
+        frequency is taken to be exact.
+
+        Some examples are given below.
         ::
-
-            "<positive integer>"
-
-        or
-        ::
-
-            "<positive integer>+"
-
-        The optional suffix ``+`` indicates that the specified digit frequency
-        should be considered a minimum - without ``+`` the digit frequency is
-        taken to be exact, e.g.
-
-            915286437, {1, 2, 3, 4, 5, 6, 7, 8, 9}     ->   True
-            7346821,   {1, 2, 3, 4, 6, 7, 8}, '1+'     ->   True
-            22441144,  {1, 2, 3, 4}, '2+'              ->   True
-            123456789, {1, 2, 3, 4, 5, 6, 7, 8}        ->   False
-            31290,     {0, 1, 2, 3, 8}                 ->   False
-            1243314,   {1, 2, 3, 4}, '2+'              ->   False
+            915286437, False, '1+'           ->   False
+            915286437, True, '1+'            ->   True
+            9152860437, False, '1+'          ->   True
+            112233445566778899, False, '2'   -> False
+            112233445566778899, True, '2'    -> True
+            11223344556677889900, False, '2' -> True
     """
-    count = Counter(digits(n))
-    _dset = set(dset) if not type(dset) == set else dset
-    _dfreq = int(dfreq.split('+')[0])
-    return (
-        set(count.keys()).issubset(_dset) and not any(count[d] != _dfreq for d in count) if '+' not in dfreq else
-        set(count.keys()).issubset(_dset) and not any(count[d] < _dfreq for d in count)
-   )
+    digits = Counter(digits(n))
+
+    _dfreq, dfreq_min = re.match(r'(\d+)(\+)?', dig_freq).groups()
+    _dfreq = int(_dfreq)
+
+    base = set(Counter(str(1234567890)).keys()).difference(['0'] if zeroless else [])
+
+    return base.issubset(digits.keys()) and (
+        min(digits.values()) == max(digits.values()) == _dfreq if dfreq_min != '+' else
+        min(digits.values()) >= _dfreq
+    )
 
 
 def rotations(n):
