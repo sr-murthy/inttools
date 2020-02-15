@@ -40,7 +40,7 @@ def digit_sum(n, k=1):
             (123)    -> 1^1 + 2^1 + 3^1 = 6
             (123, 2) -> 1^2 + 2^2 + 3^2 = 14
     """
-    return reduce(lambda x, y: x + y, (d**k for d in digits(n)))
+    return reduce(lambda x, y: x + y, (d ** k for d in digits(n)))
 
 
 def digit_product(n, k=1):
@@ -50,7 +50,7 @@ def digit_product(n, k=1):
 
             (312, 2) -> 3^2 x 1^2 x 2^2 = 36
     """
-    return reduce(lambda x, y: x * y, (d**k for d in digits(n)))
+    return reduce(lambda x, y: x * y, (d ** k for d in digits(n)))
 
 
 def int_from_digits(digits):
@@ -66,22 +66,29 @@ def int_from_digits(digits):
     """
     dgs = list(digits)
     n = len(dgs)
-    return sum(d*10**i for d, i in zip(dgs, reversed(range(n))))
+    return sum(d * 10 ** i for d, i in zip(dgs, reversed(range(n))))
 
 
 def is_pandigital(n, dset, dfreq='1+'):
     """
-        Checks whether a given positive integer `n` is a pandigital number with
-        respect to the digit base set `dset` and the digit frequency string
-        dfreq. To be precise, `n` is pandigital with respect to the specified
-        parameters if it has digits in the base set `dset` such that every digit
-        occurs at least `dfreq` times, where `dfreq` is of the form
+        Checks whether a given positive integer ``n`` is a pandigital number
+        with respect to the digit base set ``dset`` and the digit frequency
+        string ``dfreq``. To be precise, ``n`` is pandigital with respect to
+        the specified parameters if it has digits in the base set ``dset``
+        such that every digit occurs at least ``dfreq`` times, where ``dfreq``
+        is a string of the form
+        ::
 
-            `<positive integer>` or `<positive integer>+`
+            "<positive integer>"
 
-        The the additional `+` at the end indicates that the specified digit
-        frequency should be considered a minimum - if '+' is not present then
-        the digit frequency is taken to be exact, e.g.
+        or
+        ::
+
+            "<positive integer>+"
+
+        The optional suffix ``+`` indicates that the specified digit frequency
+        should be considered a minimum - without ``+`` the digit frequency is
+        taken to be exact, e.g.
 
             915286437, {1, 2, 3, 4, 5, 6, 7, 8, 9}     ->   True
             7346821,   {1, 2, 3, 4, 6, 7, 8}, '1+'     ->   True
@@ -89,7 +96,6 @@ def is_pandigital(n, dset, dfreq='1+'):
             123456789, {1, 2, 3, 4, 5, 6, 7, 8}        ->   False
             31290,     {0, 1, 2, 3, 8}                 ->   False
             1243314,   {1, 2, 3, 4}, '2+'              ->   False
-
     """
     count = Counter(digits(n))
     _dset = set(dset) if not type(dset) == set else dset
@@ -109,7 +115,7 @@ def rotations(n):
     digs = list(digits(n, reverse=True))
     n = len(digs)
     for i in range(n):
-        yield sum(digs[(j + i) % n] * 10**j for j in range(n))
+        yield sum(digs[(j + i) % n] * 10 ** j for j in range(n))
 
 
 def int_permutations(n):
@@ -138,9 +144,8 @@ def concatenate(*seqs):
             digits(12), [3, 4, 5], (6, 7, 8, 9)    -> 1, 2, 3, 4, 5, 6, 7, 8, 9
             *[digits(12), [3, 4, 5], (6, 7, 8, 9)] -> 1, 2, 3, 4, 5, 6, 7, 8, 9
     """
-    for seq in seqs:
-        for c in seq:
-            yield c
+    for c in chain(c for seq in seqs for c in seq):
+        yield c
 
 
 def interlace(*seqs):

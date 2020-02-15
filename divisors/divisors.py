@@ -1,3 +1,12 @@
+__all__ = [
+    '_divisors',
+    'd',
+    'divisors',
+    's',
+    'sigma',
+    'sigma_k_func'
+]
+
 from collections import OrderedDict
 
 from itertools import (
@@ -12,7 +21,7 @@ from inttools.primes import prime_factors
 from inttools.utils import int_product
 
 
-def divisors(n):
+def _divisors(n):
     """
         Generates the sequence of divisors of a given positive integer n, in
         ascending order, e.g.:
@@ -30,6 +39,13 @@ def divisors(n):
     divs.sort()
     for div in divs:
         yield div
+
+
+def divisors(n, generator=False):
+    divs = _divisors(n)
+    if not generator:
+        return [d for d in divs]
+    return divs
 
 
 def d(n):
@@ -58,7 +74,7 @@ def sigma(n, k):
 
             (12, 2) -> 1^2 + 2^2 + 3^2 + 4^2 + 6^2 + 12^2 = 210
     """
-    return sum(d**k for d in divisors(n))
+    return sum(d**k for d in _divisors(n))
 
 
 def sigma_k_func(k):
@@ -80,5 +96,5 @@ def s(n):
 
             12 -> 1 + 2 + 3 + 4 + 6 = 16
      """
-    return sum(filter(lambda d: d < n, divisors(n)))
+    return sum(filter(lambda d: d < n, _divisors(n)))
 

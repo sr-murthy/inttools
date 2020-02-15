@@ -8,7 +8,7 @@ def polygonal_number(n, k):
 
             P(n, k) = [(n - 2)k^2 - (k - 4)n] / 2
     """
-    return int(((n - 2)*k**2 - (n - 4)*k) / (2))
+    return int(((n - 2) * k ** 2 - (n - 4) * k) / (2))
 
 
 def n_polygonal_number_func(n):
@@ -40,5 +40,5 @@ def is_polygonal_number(m, n):
     """
     if m == 1:
         return True
-    k = (((n - 4) + math.sqrt((n - 4)**2 + 8*m*(n - 2))) / (2*(n - 2)))
+    k = (((n - 4) + math.sqrt((n - 4) ** 2 + 8 * m * (n - 2))) / (2 * (n - 2)))
     return int(k) if k.is_integer() else False
