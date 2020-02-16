@@ -17,7 +17,6 @@ def digits(n, reverse=False):
     the most significant digit, by default. If reverse is True then the
     sequence is generated from the least significant digit, e.g.
     ::
-
         123 -> 1, 2, 3      (with no reverse or reverse=False)
         123 -> 3, 2, 1      (with reverse=True)
     """
@@ -119,7 +118,6 @@ def int_from_digits(digits):
     digit. The input can be a sequence (list, tuple) or a generator,
     e.g.
     ::
-
         [1,2,3]      -> 1x10^2 + 2x10^1 + 3x10^0        =  123
         (2, 4, 5, 1) -> 2x10^3 + 4x10^2 + 5x10 + 1x10^0 = 2451
         digits(123)  -> 1x10^2 + 2x10^1 + 3x10^0        = 123
@@ -134,13 +132,11 @@ def int_concatenate(*seq_ints):
     Returns the integer obtained by concatenating a sequence of
     integers, e.g.
     ::
-
         12, 345, 6789    -> 123456789
 
     The arguments can be separate integers, as above, or an unpacked
     sequence of integers, e.g.
     ::
-
         *[12, 345, 6789] -> 123456789
     """
     return int_from_digits(reduce(chain, map(digits, seq_ints)))
@@ -151,7 +147,6 @@ def rotations(n):
     Generates a sequence of (right) rotations of a positive integer ``n``,
     e.g.
     ::
-
         1234 -> 4123, 3412, 2341, 1234
     """
     digs = list(digits(n, reverse=True))
@@ -165,8 +160,7 @@ def int_permutations(n):
     Generates a sequence of permutations of a given positive integer ``n`` in
     lexicographic order, e.g.
     ::
-
-            123 -> 123, 132, 213, 231, 312, 321
+        123 -> 123, 132, 213, 231, 312, 321
     """
     for p in permutations(digits(n)):
         yield int_from_digits(p)
@@ -177,12 +171,11 @@ def sum_of_digits(n, k=1, mod=None):
     Returns the sum of the ``k``-th powers of the digits of a given positive
     integer ``n``, reduced by a given modulus ``mod``, e.g.
     ::
-        
         (123, 1, None) -> 1^1 + 2^1 + 3^1 = 6
         (123, 2, None) -> 1^2 + 2^2 + 3^2 = 14
         (123, 2, 5)    -> (1^2 + 2^2 + 3^2) mod 5 = 14 mod 5 = 4
     """
-    return generalised_sum(digits(n), k=k, mod=None)
+    return generalised_sum(digits(n), k=k, mod=mod)
 
 
 def digit_sum(n, k=1, mod=None):
@@ -217,10 +210,11 @@ def product_of_digits(n, k=1, mod=None):
     Returns the product of the ``k``-th powers of the digits of a given
     positive integer ``n``, reduced by a given modulus ``mod``, e.g.
     ::
-
-        (312, 2) -> 3^2 x 1^2 x 2^2 = 36
+        (123, 1, None) -> 1^1 * 2^1 * 3^1 = 6
+        (123, 2, None) -> 1^2 * 2^2 * 3^2 = 36
+        (123, 2, 5)    -> (1^2 * 2^2 * 3^2) mod 5 = 36 mod 5 = 1
     """
-    return generalised_product(digits(n), k=k, mod=None)
+    return generalised_product(digits(n), k=k, mod=mod)
 
 
 def digit_product(n, k=1, mod=None):
@@ -257,7 +251,6 @@ def int_from_digits(digits):
     digit. The input can be a sequence (list, tuple) or a generator,
     e.g.
     ::
-
         [1,2,3]      -> 1x10^2 + 2x10^1 + 3x10^0        =  123
         (2, 4, 5, 1) -> 2x10^3 + 4x10^2 + 5x10 + 1x10^0 = 2451
         digits(123)  -> 1x10^2 + 2x10^1 + 3x10^0        = 123
