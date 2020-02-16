@@ -17,12 +17,11 @@ def digits(n, reverse=False):
     the most significant digit, by default. If reverse is True then the
     sequence is generated from the least significant digit, e.g.
     ::
-        123 -> 1, 2, 3      (with no reverse or reverse=False)
-        123 -> 3, 2, 1      (with reverse=True)
+        123, False -> 1, 2, 3
+        123, True  -> 3, 2, 1
     """
-    s = str(n) if not reverse else str(n)[::-1]
-    for d in s:
-        yield int(d)
+    for c in (str(n) if not reverse else str(n)[::-1]):
+        yield int(c)
 
 
 def generalised_sum(int_seq, k=1, mod=None):
