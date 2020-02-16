@@ -1,6 +1,7 @@
 import math
 
-from inttools.utils import rotations
+from inttools.arithmetic import rotations
+
 
 def is_prime(n):
     """
@@ -17,7 +18,7 @@ def is_prime(n):
 
     for i in range(3, math.ceil(math.sqrt(n)) + 1, 2):
         if n % i == 0:
-            return False    
+            return False
 
     return True
 

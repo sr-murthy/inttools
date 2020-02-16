@@ -1,5 +1,6 @@
 from itertools import permutations
 
+
 def is_d_cyclic_set(int_set, d):
     """
         Checks whether a given set (or sequence) of positive integers has the

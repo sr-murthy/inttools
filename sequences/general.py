@@ -5,7 +5,7 @@ from itertools import (
     starmap,
 )
 
-from inttools.utils import binomial
+from inttools.arithmetic import binomial
 
 def arithmetic(a, d, index_range=None, seq_range=None):
     """
@@ -45,7 +45,9 @@ def geometric(a, r, index_range=None, seq_range=None):
 
             a, ar, ar^2, ...
     """
-    t = lambda n: a * r ** (n - 1)
+    def t(n):
+        return a * r ** (n - 1)
+
     if index_range:
         for n in index_range:
             yield t(n)
@@ -111,5 +113,8 @@ def pascal_triangle(n):
 
             (x + 1)^ 0, (x + 1)^1, (x + 1)^2, ... , (x + 1)^n
     """
-    for aseq in chain(starmap(binomial, seq) for seq in chain(((k, i) for i in range(k + 1)) for k in range(n + 1))):
+    for aseq in chain(
+        starmap(binomial, seq)
+        for seq in chain(((k, i) for i in range(k + 1)) for k in range(n + 1))
+    ):
         yield list(aseq)

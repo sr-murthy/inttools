@@ -1,5 +1,6 @@
 import math
 
+
 def is_hilbert_number(n):
     """
     Simply check whether n is positive and the remainder of n is equal to 1
