@@ -79,14 +79,12 @@ def chain(*seqs):
     Generates the sequence obtained by chaining (or concatenating) a
     sequence of sequences, e.g.
     ::
-
-        (1, 2), (3, 4, 5), (6, 7, 8, 9)        -> 1, 2, 3, 4, 5, 6, 7, 8, 9
+        (1, 2), (3, 4, 5), (6, 7, 8, 9) -> 1, 2, 3, 4, 5, 6, 7, 8, 9
 
     The arguments can be separate sequences (generators, lists, tuples) or
     an unpacked iterable of such sequences (use * to unpack an iterable
     argument), e.g.
     ::
-
         digits(12), digits(345), digits(6789)  -> 1, 2, 3, 4, 5, 6, 7, 8, 9
         digits(12), [3, 4, 5], (6, 7, 8, 9)    -> 1, 2, 3, 4, 5, 6, 7, 8, 9
         *[digits(12), [3, 4, 5], (6, 7, 8, 9)] -> 1, 2, 3, 4, 5, 6, 7, 8, 9
@@ -100,13 +98,12 @@ def interlace(*seqs):
     Generates the sequence obtained by interlacing a sequence of sequences
     (of the same length), e.g.
     ::
-
-        (1, 2, 3), (4, 5, 6), (7, 8, 9)       -> 1, 4, 7, 2, 5, 8, 3, 6, 9
+        (1, 2, 3), (4, 5, 6), (7, 8, 9) -> 1, 4, 7, 2, 5, 8, 3, 6, 9
 
     The arguments can be separate sequences (generators, lists, tuples) or
     an unpacked iterable of such sequences (use * to unpack an iterable
     argument), e.g.
-
+    ::
         digits(123), digits(456), digits(789) -> 1, 4, 7, 2, 5, 8, 3, 6, 9
         digits(123), [4, 5, 6], (7, 8, 9)     -> 1, 4, 7, 2, 5, 8, 3, 6, 9
         *[digits(123), [4, 5, 6], (7, 8, 9)]  -> 1, 4, 7, 2, 5, 8, 3, 6, 9
