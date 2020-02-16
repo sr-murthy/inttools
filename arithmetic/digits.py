@@ -73,6 +73,84 @@ def generalised_product(int_seq, k=1, mod=None):
     return r % mod
 
 
+def sum_of_digits(n, k=1, mod=None):
+    """
+    Returns the sum of the ``k``-th powers of the digits of a given positive
+    integer ``n``, reduced by a given modulus ``mod``, e.g.
+    ::
+        (123, 1, None) -> 1^1 + 2^1 + 3^1 = 6
+        (123, 2, None) -> 1^2 + 2^2 + 3^2 = 14
+        (123, 2, 5)    -> (1^2 + 2^2 + 3^2) mod 5 = 14 mod 5 = 4
+    """
+    return generalised_sum(digits(n), k=k, mod=mod)
+
+
+def digit_sum(n, k=1, mod=None):
+    """
+    Returns the reduced digit sum of a given positive integer ``n``
+    and its (additive) persistence, i.e. the number of steps taken to
+    reduce ``n`` to a single digit by repeated addition of digits.
+    In each step the summation is of ``k``-th powers of digits, and
+    the sum is reduced by the given modulus ``mod``.
+    """
+    if n < 10:
+        return n, 0
+    m = sum_of_digits(n, k=k, mod=mod)
+    p = 1
+    while m > 9:
+        p += 1
+        m = sum_of_digits(m, k=k, mod=mod)
+    return m, p
+
+
+def additive_persistence(n, k=1, mod=None):
+    """
+    The number of steps taken to reduce ``n`` to a single digit by repeated
+    addition of digits raised to a given power ``k``, and the total sum reduced
+    by a given modulus ``mod``.
+    """
+    return digit_sum(n, k=k, mod=mod)[1]
+
+
+def product_of_digits(n, k=1, mod=None):
+    """
+    Returns the product of the ``k``-th powers of the digits of a given
+    positive integer ``n``, reduced by a given modulus ``mod``, e.g.
+    ::
+        (123, 1, None) -> 1^1 * 2^1 * 3^1 = 6
+        (123, 2, None) -> 1^2 * 2^2 * 3^2 = 36
+        (123, 2, 5)    -> (1^2 * 2^2 * 3^2) mod 5 = 36 mod 5 = 1
+    """
+    return generalised_product(digits(n), k=k, mod=mod)
+
+
+def digit_product(n, k=1, mod=None):
+    """
+    Returns the multiplicative digital root of a given positive integer ``n``
+    and its (multiplicative) persistence, i.e. the number of steps taken to
+    reduce ``n`` to a single digit by repeated multiplication of digits.
+    In each step the multiplication is of ``k``-th powers of digits, and
+    the product is reduced by the given modulus ``mod``.
+    """
+    if n < 10:
+        return n, 0
+    m = product_of_digits(n, k=k, mod=mod)
+    p = 1
+    while m > 9:
+        p += 1
+        m = product_of_digits(m, k=k, mod=mod)
+    return m, p
+
+
+def multiplicative_persistence(n, k=1, mod=None):
+    """
+    The number of steps taken to reduce ``n`` to a single digit by repeated
+    multiplication of digits raised to a given power ``k``, and the total sum
+    reduced by a given modulus ``mod``.
+    """
+    return digit_product(n, k=k, mod=mod)[1]
+
+
 def chain(*seqs):
     """
     Generates the sequence obtained by chaining (or concatenating) a
@@ -164,100 +242,6 @@ def int_permutations(n):
     """
     for p in permutations(digits(n)):
         yield int_from_digits(p)
-
-
-def sum_of_digits(n, k=1, mod=None):
-    """
-    Returns the sum of the ``k``-th powers of the digits of a given positive
-    integer ``n``, reduced by a given modulus ``mod``, e.g.
-    ::
-        (123, 1, None) -> 1^1 + 2^1 + 3^1 = 6
-        (123, 2, None) -> 1^2 + 2^2 + 3^2 = 14
-        (123, 2, 5)    -> (1^2 + 2^2 + 3^2) mod 5 = 14 mod 5 = 4
-    """
-    return generalised_sum(digits(n), k=k, mod=mod)
-
-
-def digit_sum(n, k=1, mod=None):
-    """
-    Returns the reduced digit sum of a given positive integer ``n``
-    and its (additive) persistence, i.e. the number of steps taken to
-    reduce ``n`` to a single digit by repeated addition of digits.
-    In each step the summation is of ``k``-th powers of digits, and
-    the sum is reduced by the given modulus ``mod``.
-    """
-    if n < 10:
-        return n, 0
-    m = sum_of_digits(n, k=k, mod=mod)
-    p = 1
-    while m > 9:
-        p += 1
-        m = sum_of_digits(m, k=k, mod=mod)
-    return m, p
-
-
-def additive_persistence(n, k=1, mod=None):
-    """
-    The number of steps taken to reduce ``n`` to a single digit by repeated
-    addition of digits raised to a given power ``k``, and the total sum reduced
-    by a given modulus ``mod``.
-    """
-    return digit_sum(n, k=k, mod=mod)[1]
-
-
-def product_of_digits(n, k=1, mod=None):
-    """
-    Returns the product of the ``k``-th powers of the digits of a given
-    positive integer ``n``, reduced by a given modulus ``mod``, e.g.
-    ::
-        (123, 1, None) -> 1^1 * 2^1 * 3^1 = 6
-        (123, 2, None) -> 1^2 * 2^2 * 3^2 = 36
-        (123, 2, 5)    -> (1^2 * 2^2 * 3^2) mod 5 = 36 mod 5 = 1
-    """
-    return generalised_product(digits(n), k=k, mod=mod)
-
-
-def digit_product(n, k=1, mod=None):
-    """
-    Returns the multiplicative digital root of a given positive integer ``n``
-    and its (multiplicative) persistence, i.e. the number of steps taken to
-    reduce ``n`` to a single digit by repeated multiplication of digits.
-    In each step the multiplication is of ``k``-th powers of digits, and
-    the product is reduced by the given modulus ``mod``.
-    """
-    if n < 10:
-        return n, 0
-    m = product_of_digits(n, k=k, mod=mod)
-    p = 1
-    while m > 9:
-        p += 1
-        m = product_of_digits(m, k=k, mod=mod)
-    return m, p
-
-
-def multiplicative_persistence(n, k=1, mod=None):
-    """
-    The number of steps taken to reduce ``n`` to a single digit by repeated
-    multiplication of digits raised to a given power ``k``, and the total sum
-    reduced by a given modulus ``mod``.
-    """
-    return digit_product(n, k=k, mod=mod)[1]
-
-
-def int_from_digits(digits):
-    """
-    Returns a positive integer ``n`` from a decimal expansion of a
-    sequence of digits in descending order from the most significant
-    digit. The input can be a sequence (list, tuple) or a generator,
-    e.g.
-    ::
-        [1,2,3]      -> 1x10^2 + 2x10^1 + 3x10^0        =  123
-        (2, 4, 5, 1) -> 2x10^3 + 4x10^2 + 5x10 + 1x10^0 = 2451
-        digits(123)  -> 1x10^2 + 2x10^1 + 3x10^0        = 123
-    """
-    dgs = list(digits)
-    n = len(dgs)
-    return sum(d * 10 ** i for d, i in zip(dgs, reversed(range(n))))
 
 
 def is_pandigital(n, zeroless=False, dig_freq='1+'):
