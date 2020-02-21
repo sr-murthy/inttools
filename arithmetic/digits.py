@@ -20,8 +20,9 @@ def digits(n, reverse=False):
         123, False -> 1, 2, 3
         123, True  -> 3, 2, 1
     """
-    for c in (str(n) if not reverse else str(n)[::-1]):
-        yield int(c)
+    m = math.floor(math.log10(n)) + 1
+    for k in reversed(range(m)):
+        yield (n // (10 ** k)) % 10
 
 
 def generalised_sum(int_seq, k=1, mod=None):
@@ -92,7 +93,7 @@ def digit_sum(n, k=1, mod=None):
     In each step the summation is of ``k``-th powers of digits, and
     the sum is reduced by the given modulus ``mod``.
     """
-    if n < 10:
+    if n < 10 and k == 1:
         return n, 0
     m = sum_of_digits(n, k=k, mod=mod)
     p = 1
@@ -131,7 +132,7 @@ def digit_product(n, k=1, mod=None):
     In each step the multiplication is of ``k``-th powers of digits, and
     the product is reduced by the given modulus ``mod``.
     """
-    if n < 10:
+    if n < 10 and k == 1:
         return n, 0
     m = product_of_digits(n, k=k, mod=mod)
     p = 1
