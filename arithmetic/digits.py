@@ -94,22 +94,25 @@ def digit_sum(n, k=1, mod=None):
     the sum is reduced by the given modulus ``mod``.
     """
     if n < 10 and k == 1:
-        return n, 0
+        return n, 0, {}
     m = sum_of_digits(n, k=k, mod=mod)
+    o = [m]
     p = 1
     while m > 9:
         p += 1
         m = sum_of_digits(m, k=k, mod=mod)
-    return m, p
+        o.append(m)
+    return m, p, o
 
 
-def additive_persistence(n, k=1, mod=None):
+def additive_persistence(n, k=1, mod=None, orbit=False):
     """
     The number of steps taken to reduce ``n`` to a single digit by repeated
     addition of digits raised to a given power ``k``, and the total sum reduced
     by a given modulus ``mod``.
     """
-    return digit_sum(n, k=k, mod=mod)[1]
+    ds = digit_sum(n, k=k, mod=mod)
+    return ds[1] if not orbit else ds[1:]
 
 
 def product_of_digits(n, k=1, mod=None):
@@ -135,20 +138,23 @@ def digit_product(n, k=1, mod=None):
     if n < 10 and k == 1:
         return n, 0
     m = product_of_digits(n, k=k, mod=mod)
+    o = [m]
     p = 1
     while m > 9:
         p += 1
         m = product_of_digits(m, k=k, mod=mod)
-    return m, p
+        o.append(m)
+    return m, p, o
 
 
-def multiplicative_persistence(n, k=1, mod=None):
+def multiplicative_persistence(n, k=1, mod=None, orbit=False):
     """
     The number of steps taken to reduce ``n`` to a single digit by repeated
     multiplication of digits raised to a given power ``k``, and the total sum
     reduced by a given modulus ``mod``.
     """
-    return digit_product(n, k=k, mod=mod)[1]
+    ds = digit_product(n, k=k, mod=mod)
+    return ds[1] if not orbit else ds[1:]
 
 
 def chain(*seqs):
