@@ -6,6 +6,7 @@ from functools import reduce
 from itertools import (
     chain as itertools_chain,
     permutations,
+    zip_longest,
 )
 
 from math import factorial
@@ -105,14 +106,13 @@ def digit_sum(n, k=1, mod=None):
     return m, p, o
 
 
-def additive_persistence(n, k=1, mod=None, orbit=False):
+def additive_persistence(n, k=1, mod=None):
     """
     The number of steps taken to reduce ``n`` to a single digit by repeated
     addition of digits raised to a given power ``k``, and the total sum reduced
     by a given modulus ``mod``.
     """
-    ds = digit_sum(n, k=k, mod=mod)
-    return ds[1] if not orbit else ds[1:]
+    return digit_sum(n, k=k, mod=mod)[1]
 
 
 def product_of_digits(n, k=1, mod=None):
@@ -147,14 +147,13 @@ def digit_product(n, k=1, mod=None):
     return m, p, o
 
 
-def multiplicative_persistence(n, k=1, mod=None, orbit=False):
+def multiplicative_persistence(n, k=1, mod=None):
     """
     The number of steps taken to reduce ``n`` to a single digit by repeated
     multiplication of digits raised to a given power ``k``, and the total sum
     reduced by a given modulus ``mod``.
     """
-    ds = digit_product(n, k=k, mod=mod)
-    return ds[1] if not orbit else ds[1:]
+    return digit_product(n, k=k, mod=mod)[1]
 
 
 def chain(*seqs):
@@ -191,8 +190,8 @@ def interlace(*seqs):
         digits(123), [4, 5, 6], (7, 8, 9)     -> 1, 4, 7, 2, 5, 8, 3, 6, 9
         *[digits(123), [4, 5, 6], (7, 8, 9)]  -> 1, 4, 7, 2, 5, 8, 3, 6, 9
     """
-    for e in chain(*zip(*seqs)):
-        yield e
+    for x in (x for x in chain(e for e in *zip_longest(*seqs)) if x):
+        yield x
 
 
 def int_from_digits(digits):
