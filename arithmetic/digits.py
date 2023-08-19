@@ -13,19 +13,6 @@ from itertools import (
 from math import factorial
 
 
-def digits_(n, reverse=False):
-    """
-    Generates the sequence of digits of a given integer ``n``, starting from
-    the most significant digit, by default. If reverse is True then the
-    sequence is generated from the least significant digit, e.g.
-    ::
-        123, False -> 1, 2, 3
-        123, True  -> 3, 2, 1
-    """
-    m = math.floor(math.log10(n)) + 1
-    for k in reversed(range(m)):
-        yield (n // (10 ** k)) % 10
-
 def num_digits(n, b):
     """
     Returns the number of digits in the base ``b`` required to represent a given
@@ -42,6 +29,21 @@ def num_digits(n, b):
         return 1
 
     return int(math.log(n, b)) + 1
+
+
+def digits_(n, reverse=False):
+    """
+    Generates the sequence of digits of a given integer ``n``, starting from
+    the most significant digit, by default. If reverse is True then the
+    sequence is generated from the least significant digit, e.g.
+    ::
+        123, False -> 1, 2, 3
+        123, True  -> 3, 2, 1
+    """
+    m = num_digits(n, 10)
+
+    for k in reversed(range(m)):
+        yield (n // (10 ** k)) % 10
 
 
 def generalised_sum(int_seq, k=1, mod=None):
