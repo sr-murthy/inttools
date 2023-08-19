@@ -1,3 +1,4 @@
+import math
 import re
 
 from collections import Counter
@@ -12,7 +13,7 @@ from itertools import (
 from math import factorial
 
 
-def digits(n, reverse=False):
+def digits_(n, reverse=False):
     """
     Generates the sequence of digits of a given integer ``n``, starting from
     the most significant digit, by default. If reverse is True then the
@@ -24,6 +25,23 @@ def digits(n, reverse=False):
     m = math.floor(math.log10(n)) + 1
     for k in reversed(range(m)):
         yield (n // (10 ** k)) % 10
+
+def num_digits(n, b):
+    """
+    Returns the number of digits in the base ``b`` required to represent a given
+    (decimal) integer ``n``. Both ``n`` and ``b`` must be integers, and ``b``
+    must be a positive integer.
+    """
+    if not (isinstance(n, int) and isinstance(b, int)):
+        raise ValueError('The integer n and base b must both be integers')
+
+    if b == 0:
+        raise ValueError('Base b must be a positive integer')
+
+    if n == 0:
+        return 1
+
+    return int(math.log(n, b)) + 1
 
 
 def generalised_sum(int_seq, k=1, mod=None):
@@ -83,7 +101,7 @@ def sum_of_digits(n, k=1, mod=None):
         (123, 2, None) -> 1^2 + 2^2 + 3^2 = 14
         (123, 2, 5)    -> (1^2 + 2^2 + 3^2) mod 5 = 14 mod 5 = 4
     """
-    return generalised_sum(digits(n), k=k, mod=mod)
+    return generalised_sum(digits_(n), k=k, mod=mod)
 
 
 def digit_sum(n, k=1, mod=None):
@@ -124,7 +142,7 @@ def product_of_digits(n, k=1, mod=None):
         (123, 2, None) -> 1^2 * 2^2 * 3^2 = 36
         (123, 2, 5)    -> (1^2 * 2^2 * 3^2) mod 5 = 36 mod 5 = 1
     """
-    return generalised_product(digits(n), k=k, mod=mod)
+    return generalised_product(digits_(n), k=k, mod=mod)
 
 
 def digit_product(n, k=1, mod=None):
@@ -190,7 +208,7 @@ def interlace(*seqs):
         digits(123), [4, 5, 6], (7, 8, 9)     -> 1, 4, 7, 2, 5, 8, 3, 6, 9
         *[digits(123), [4, 5, 6], (7, 8, 9)]  -> 1, 4, 7, 2, 5, 8, 3, 6, 9
     """
-    for x in (x for x in chain(e for e in *zip_longest(*seqs)) if x):
+    for x in itertools_chain.from_iterable(zip_longest(*seqs)):
         yield x
 
 
@@ -205,9 +223,9 @@ def int_from_digits(digits):
         (2, 4, 5, 1) -> 2x10^3 + 4x10^2 + 5x10 + 1x10^0 = 2451
         digits(123)  -> 1x10^2 + 2x10^1 + 3x10^0        = 123
     """
-    dgs = list(digits)
-    n = len(dgs)
-    return sum(d * 10 ** i for d, i in zip(dgs, reversed(range(n))))
+    digs = list(digits)
+    n = len(digs)
+    return sum(d * 10 ** i for d, i in zip(digs, reversed(range(n))))
 
 
 def int_concatenate(*seq_ints):
@@ -222,21 +240,46 @@ def int_concatenate(*seq_ints):
     ::
         *[12, 345, 6789] -> 123456789
     """
-    return int_from_digits(reduce(chain, map(digits, seq_ints)))
+    return int_from_digits(reduce(chain, map(digits_, seq_ints)))
+
+
+def rotation(n, k):
+    """
+    Returns an integer which is the k-th right-cyclic rotation of a given
+    integer ``n``. By definition, this is the integer produced from ``n`` by a
+    right-cyclic rotation of order ``k`` of its digits, e.g.
+    ::
+        1234, 1 -> 4123
+        1234, 2 -> 3412
+        1234, 3 -> 2341
+        1234, 4 -> 1234
+    """
+    if k == 0:
+        return n
+
+    digs = list(digits_(n))
+
+    m = len(digs)
+
+    _k = k % m
+
+    new_digs = digs[m - _k:] + digs[:m - _k]
+
+    return sum(map(lambda t: t[0] * 10 ** t[1], zip(new_digs, reversed(range(m)))))
 
 
 def rotations(n):
     """
-    Generates a sequence of (right) rotations of a positive integer ``n``,
-    e.g.
+    Generates a sequence of all right-cyclic rotations of a given integer
+    ``n``, e.g.
     ::
         1234 -> 4123, 3412, 2341, 1234
     """
-    digs = list(digits(n, reverse=True))
-    n = len(digs)
-    for i in range(n):
-        yield sum(digs[(j + i) % n] * 10 ** j for j in range(n))
+    K = num_digits(n, 10)
 
+    for k in range(1, K + 1):
+        yield rotation(n, k)
+    
 
 def int_permutations(n):
     """
@@ -245,7 +288,7 @@ def int_permutations(n):
     ::
         123 -> 123, 132, 213, 231, 312, 321
     """
-    for p in permutations(digits(n)):
+    for p in permutations(digits_(n)):
         yield int_from_digits(p)
 
 
@@ -271,14 +314,14 @@ def is_pandigital(n, zeroless=False, dig_freq='1+'):
         112233445566778899, True, '2'    -> True
         11223344556677889900, False, '2' -> True
     """
-    digits = Counter(digits(n))
+    _digits = Counter(digits_(n))
 
     _dfreq, dfreq_min = re.match(r'(\d+)(\+)?', dig_freq).groups()
     _dfreq = int(_dfreq)
 
     base = set(Counter(str(1234567890)).keys()).difference(['0'] if zeroless else [])
 
-    return base.issubset(digits.keys()) and (
-        min(digits.values()) == max(digits.values()) == _dfreq if dfreq_min != '+' else
-        min(digits.values()) >= _dfreq
+    return base.issubset(_digits.keys()) and (
+        min(_digits.values()) == max(digits.values()) == _dfreq if dfreq_min != '+' else
+        min(_digits.values()) >= _dfreq
     )
