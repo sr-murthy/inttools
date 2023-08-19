@@ -28,7 +28,7 @@ def num_digits(n, b):
     if n == 0:
         return 1
 
-    return int(math.log(n, b)) + 1
+    return math.floor(math.log(n, b)) + 1
 
 
 def digits_(n, reverse=False):
