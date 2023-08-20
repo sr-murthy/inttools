@@ -116,13 +116,16 @@ def digit_sum(n, k=1, mod=None):
     """
     if n < 10 and k == 1:
         return n, 0, {}
+
     m = sum_of_digits(n, k=k, mod=mod)
     o = [m]
     p = 1
+
     while m > 9:
         p += 1
         m = sum_of_digits(m, k=k, mod=mod)
         o.append(m)
+
     return m, p, o
 
 
@@ -176,25 +179,6 @@ def multiplicative_persistence(n, k=1, mod=None):
     return digit_product(n, k=k, mod=mod)[1]
 
 
-def chain(*seqs):
-    """
-    Generates the sequence obtained by chaining (or concatenating) a
-    sequence of sequences, e.g.
-    ::
-        (1, 2), (3, 4, 5), (6, 7, 8, 9) -> 1, 2, 3, 4, 5, 6, 7, 8, 9
-
-    The arguments can be separate sequences (generators, lists, tuples) or
-    an unpacked iterable of such sequences (use * to unpack an iterable
-    argument), e.g.
-    ::
-        digits(12), digits(345), digits(6789)  -> 1, 2, 3, 4, 5, 6, 7, 8, 9
-        digits(12), [3, 4, 5], (6, 7, 8, 9)    -> 1, 2, 3, 4, 5, 6, 7, 8, 9
-        *[digits(12), [3, 4, 5], (6, 7, 8, 9)] -> 1, 2, 3, 4, 5, 6, 7, 8, 9
-    """
-    for c in itertools_chain(c for seq in seqs for c in seq):
-        yield c
-
-
 def interlace(*seqs):
     """
     Generates the sequence obtained by interlacing a sequence of sequences
@@ -242,7 +226,7 @@ def int_concatenate(*seq_ints):
     ::
         *[12, 345, 6789] -> 123456789
     """
-    return int_from_digits(reduce(chain, map(digits_, seq_ints)))
+    return int_from_digits(reduce(itertools_chain, map(digits_, seq_ints)))
 
 
 def rotation(n, k):
