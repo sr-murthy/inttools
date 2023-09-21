@@ -19,17 +19,38 @@ def collatz_sequence_term(seed, k):
             return None if k > i + 2 else a
     return a
 
+
+COLLATZ_CACHE = dict()
+
+
 def collatz_sequence(seed):
     """
         Generates the entire Collatz sequence for the given seed.
+
+        Uses a module-level global cache for the collatz transform
+        values.
     """
+    global COLLATZ_CACHE
+
     n = seed
     yield n
+
+    def lookup_cache(n):
+        try:
+            return COLLATZ_CACHE[n]
+        except KeyError:
+            ...
+
     while True:
-        n = collatz(n)
-        yield n
+        m = lookup_cache(n) or collatz(n)
+        COLLATZ_CACHE[n] = m
+        yield m
+
+        n = m
+
         if n == 1:
             break
+
 
 def longest_sequence_seed(ubound):
     """
