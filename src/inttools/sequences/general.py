@@ -76,15 +76,15 @@ def fibonacci():
     """
     yield 1
     yield 1
+
     a = b = 1
-    k = 2
+
     while True:
         a, b = b, a + b
-        k += 1
         yield b
 
 
-def fibonacci_n(n):
+def fibonacci_n(n: int):
     """
         Returns the n-th number in the Fibonacci sequence given by:
 
@@ -94,14 +94,9 @@ def fibonacci_n(n):
 
             1, 1, 2, 3, 5, 8, 13, 21, 34, 55
     """
-    if n in [1, 2]:
-        return 1
-    a = b = 1
-    k = 2
-    while k < n:
-        a, b = b, a + b
-        k += 1
-    return b
+    for i, x in enumerate(fibonacci(), start=1):
+        if i == n:
+            return x
 
 
 def pascal_triangle(n):
