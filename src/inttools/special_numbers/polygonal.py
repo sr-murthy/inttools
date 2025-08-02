@@ -5,8 +5,8 @@ from functools import partial
 def polygonal_number(n, k):
     """
         Returns the kth n-gonal number P(n, k) given by the general formula:
-
-            P(n, k) = [(n - 2)k^2 - (k - 4)n] / 2
+            P(s, n)
+            P(n, k) = [(n - 2)k^2 - (n - 4)k] / 2
     """
     return int(((n - 2) * k ** 2 - (n - 4) * k) / (2))
 

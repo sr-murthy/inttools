@@ -16,7 +16,7 @@ def is_hilbert_square(n):
 
     If n is a Hilbert square it has the form
 
-        n = (4k + 1)^2 = 16k^2 + 18k + 1
+        n = (4k + 1)^2 = 16k^2 + 8k + 1 = 4[4k^2 + 2k] + 1
 
     for some positive integer k. Solving for k the positive solution is
 
